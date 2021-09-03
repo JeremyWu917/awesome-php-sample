@@ -41,3 +41,61 @@
   mysqli_close($con);
 ?>
 ```
+
+
+
+# 重要说明 - 2021-09-03
+> `PHP 5` 及以上版本建议使用以下方式连接 `MySQL` :
+
+- `MySQLi extension` (`"i"` 意为 `improved`)
+- `PDO` (`PHP Data Objects`)
+
+在 `PHP` 早起版本中我们使用 `MySQL` 扩展。但该扩展在 `2012` 年开始不建议使用。
+
+## 我是该用 `MySQLi` ，还是 `PDO`?
+> 如果你需要一个简短的回答，即 "你习惯哪个就用哪个"。
+
+### `MySQLi` 和 `PDO` 有它们自己的优势：
+`PDO` 应用在 `12` 种不同数据库中， `MySQLi` 只针对 `MySQL` 数据库。
+所以，如果你的项目需要在多种数据库中切换，建议使用 `PDO` ，这样你只需要修改连接字符串和部分查询语句即可。使用 `MySQLi`, 如果不同数据库，你需要重新所有代码，包括查询。
+两者都是面向对象, 但 `MySQLi` 还提供了 `API` 接口。
+两者都支持预处理语句。 预处理语句可以防止 `SQL` 注入，对于 `web` 项目的安全性是非常重要的。
+
+`MySQLi` 连接实例
+```php
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+// 创建连接
+$conn = mysqli_connect($servername, $username, $password);
+
+// 检测连接
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+// 关闭连接
+  mysqli_close($conn);
+?>
+```
+`PDO` 连接实例
+```php
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=myDB", $username, $password);
+    echo "Connected successfully";
+    }
+catch(PDOException $e)
+    {
+    echo $e->getMessage();
+    }
+  // 关闭连接
+  $conn = null;
+?>
+```
